@@ -1,3 +1,6 @@
+// #include <iostream>
+// using namespace std;
+
 class B {
 protected:
     int x{0xbeef};
@@ -21,10 +24,15 @@ public:
 
 int main(int argc, const char **argv) {
     D *dp = new D();
-    B *bp = dp;
-    C *cp = dp;
-
     dp->f();
+
+    // cout << bp << endl;
+    // cout << cp << endl;
+    // cout << dp << endl;
+
+    B *bp = dp;
     bp->f();
+
+    C *cp = dp;
     cp->f();
 }
