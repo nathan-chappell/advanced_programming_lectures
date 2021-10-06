@@ -1,5 +1,9 @@
 CXX=g++ -std=c++11
-CPPFLAGS=-Og -g
-OBJS=$(shell find . -name "*.cpp" | sed 's/\.cpp/.o/')
+CPPFLAGS=-O0 -g
+EXES=$(shell find . -name "*.cpp" | sed 's/\.cpp/.exe/')
 
-all : $(OBJS)
+all : $(EXES)
+	echo $(EXES)
+
+%.exe : %.o
+	$(CXX) $(CPPFLAGS) $< -o $(<:.o=.exe)

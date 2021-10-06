@@ -1,13 +1,14 @@
+
 class B {
 protected:
     int x{0xbeef};
 public:
-    void f() { x += 0x1aab; }
+    virtual void f() { x += 0x1aab; }
 };
 
 class D : public B {
 public:
-    void f() { x += 0xeeab; }
+    virtual void f() override { x += 0xeeab; }
 };
 
 int main(int argc, const char **argv) {
