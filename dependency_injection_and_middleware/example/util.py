@@ -11,3 +11,6 @@ class Message:
 @dataclass
 class Response:
     content: str
+
+    def __str__(self):
+        return self.content

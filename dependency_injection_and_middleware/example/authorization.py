@@ -22,11 +22,12 @@ class Authorization:
 
     def required(self, handler):
         @wraps(handler)
-        def wrapped(message: 'Message', *args, **kwargs):
+        async def wrapped(message: 'Message', *args, **kwargs):
             if message.context.get('authorization',None) == 'authorized':
-                return handler(message, *args, **kwargs)
+                response = await handler(message, *args, **kwargs)
             else:
-                return Response('Not Authorized')
+                response = Response('Not Authorized')
+            return response
         return wrapped
 
 authorization = Authorization()

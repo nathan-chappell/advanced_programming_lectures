@@ -7,12 +7,12 @@ from authorization import authorization as global_authorizer
 
 logging.basicConfig()
 logging.getLogger().setLevel(logging.INFO)
-# MessageHandler: Message -> Response
+# MessageHandler: (async) Message -> Response
 
 def middleware_reducer(acc: 'MessageHandler', _next: 'Middleware') -> 'MessageHandler':
     return _next(acc)
 
-def null_handler(message: 'Message') -> 'Response':
+async def null_handler(message: 'Message') -> 'Response':
     return Response()
 
 def build_middleware(middlewares: 'List[Middleware]') -> 'MessageHandler':
@@ -20,31 +20,38 @@ def build_middleware(middlewares: 'List[Middleware]') -> 'MessageHandler':
     
 ## Middlewares...
 
+count = 0
+
+_logger = logging.getLogger('logger')
+
 def logger(_next: 'MessageHandler') -> 'MessageHandler':
-    def handler(message: 'Message') -> 'Response':
-        logging.info(f'<Logger, incoming>: {message}')
-        response = _next(message)
-        logging.info(f'<Logger, outgoing>: {response}')
+    async def handler(message: 'Message') -> 'Response':
+        global count
+        _count = count
+        count += 1
+        _logger.info(f'[{_count:4} <-- ]: {message}')
+        response = await _next(message)
+        _logger.info(f'[{_count:4} --> ]: {response}')
         return response
     return handler
 
 def error_handler(_next):
-    def handler(message):
+    async def handler(message):
         try:
-            return _next(message)
+            return await _next(message)
         except Exception as e:
             return Response(f'<ErrorHandler>: {e}')
     return handler
 
 # MUST BE LAST!  Unconditionally short-circuits pipeline
 def router(_next):
-    def handler(message):
-        response = routes.router.handle_message(message)
+    async def handler(message):
+        response = await routes.router.handle_message(message)
         return response
     return handler
 
 def authorization(_next):
-    def handler(message):
+    async def handler(message):
         global_authorizer.authorize_message(message)
-        return _next(message)
+        return await _next(message)
     return handler

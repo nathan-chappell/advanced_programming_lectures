@@ -1,31 +1,48 @@
 import logging
 import json
+from random import random
+from asyncio import sleep
 
 from service_provider import service_provider
 
+log = logging.getLogger(__name__)
+
+def small_delay():
+    return sleep(random())
+
+def medium_delay():
+    return sleep(1 + .5 * random())
+
+def big_delay():
+    return sleep(2 + random())
+
 @service_provider.register
 class HelloService:
-    def get_response(self, content):
+    async def get_response(self, content):
+        await medium_delay()
         if 'hello' in content.lower():
             return 'Hello to you.'
         if 'goodbye' in content.lower():
             return 'Goodbye.'
         return 'Say hi or something!'
 
-class DataAdapterException(Exception): pass
+class DataAdapterException(Exception):
+    def __init__(self):
+        super().__init__(self.__class__.__name__)
+
 class AlreadyExists(DataAdapterException): pass
 class NotFound(DataAdapterException): pass
 
 @service_provider.singleton
 class DataStore(dict):
     def __init__(self):
-        logging.info(f'Creating [singleton] DataStore')
+        log.info(f'Creating [singleton] DataStore')
         super().__init__()
 
 @service_provider.session
 class DataAdapter:
     def __init__(self, store: 'DataStore'):
-        logging.info(f'Creating [session] DataAdapter')
+        log.info(f'Creating [session] DataAdapter')
         self.store = store
 
     def check_exists(self, key):
@@ -36,43 +53,49 @@ class DataAdapter:
         if key in self.store:
             raise AlreadyExists()
 
-    def create(self, key, value):
+    async def create(self, key, value):
+        await medium_delay()
         self.check_not_exists(key)
         self.store[key] = value
 
-    def read(self, key):
+    async def read(self, key):
+        await small_delay()
         self.check_exists(key)
         return self.store[key]
 
-    def update(self, key, value):
+    async def update(self, key, value):
+        await big_delay()
         self.check_exists(key)
         self.store[key] = value
 
-    def delete(self, key):
+    async def delete(self, key):
+        await medium_delay()
         self.check_exists(key)
         del self.store[key]
 
-    def query(self, key):
+    async def query(self, key):
+        await big_delay()
         return { k:v for k,v in self.store.items() if key.lower() in k.lower() }
 
 @service_provider.register
 class SearchService:
     def __init__(self, adapter: 'DataAdapter'):
-        logging.info(f'Creating [scope] SearchService')
+        log.info(f'Creating [scope] SearchService')
         self.adapter = adapter
     
-    def get(self, key):
+    async def get(self, key):
         return self.adapter.read(key)
 
-    def create(self, key, value):
-        self.adapter.create(key, value)
+    async def create(self, key, value):
+        await self.adapter.create(key, value)
 
-    def search(self, key):
-        return json.dumps(self.adapter.query(key))
+    async def search(self, key):
+        response = await self.adapter.query(key)
+        return json.dumps(response)
 
 
 @service_provider.register
 class FooService:
     def __init__(self, adapter: 'DataAdapter'):
-        logging.info(f'Creating [scope] FooService')
+        log.info(f'Creating [scope] FooService')
         self.adapter = adapter

@@ -5,25 +5,7 @@ class Server:
     def __init__(self, middlewares: 'List[Middleware]'):
         self.pipeline = build_middleware(middlewares)
 
-    def handle_message(self, message: Message) -> Response:
-        return self.pipeline(message)
+    async def handle_message(self, message: Message) -> Response:
+        return await self.pipeline(message)
 
-if __name__ == '__main__':
-    messages = [
-        Message('/index','hello there'),
-        Message('/index','goodbye sir'),
-        Message('/search','foo'),
-        Message('/new','foo,this is an example'),
-        Message('/search','foo'),
-        Message('/new','[code=secret_code]foo,this is an example'),
-        Message('/search','foo'),
-        Message('/qwer','zxcv'),
-    ]
-
-    # TODO: fix order of middleware
-    server = Server([logger, error_handler, authorization, router])
-
-    for message in messages:
-        # print(message)
-        response = server.handle_message(message)
-        # print(response)
+server = Server([logger, error_handler, authorization, router])

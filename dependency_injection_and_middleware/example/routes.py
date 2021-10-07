@@ -3,28 +3,31 @@ from router import router
 from authorization import authorization
 
 @router.route('/index')
-def index(message: Message, hello_service: 'HelloService') -> Response:
-    response = hello_service.get_response(message.content)
-    return Response(response)
+async def index(message: Message, hello_service: 'HelloService') -> Response:
+    result = await hello_service.get_response(message.content)
+    return Response(result)
 
 @router.route('/new')
 @authorization.required
-def new(message: Message, search_service: 'SearchService') -> Response:
+async def new(message: Message, search_service: 'SearchService') -> Response:
     k,v = message.content.split(',')
-    return search_service.create(k,v)
+    await search_service.create(k,v)
+    return Response("created.")
 
 
 @router.route('/get')
-def get(message: Message, search_service: 'SearchService') -> Response:
+async def get(message: Message, search_service: 'SearchService') -> Response:
     key = message.content
-    return search_service.get(key)
+    result = await search_service.get(key)
+    return Response(result)
 
 
 @router.route('/search')
-def search(
+async def search(
         message: Message,
         search_service: 'SearchService',
         foo_service: 'FooService',
     ) -> Response:
     key = message.content
-    return search_service.search(key)
+    result = await search_service.search(key)
+    return Response(result)

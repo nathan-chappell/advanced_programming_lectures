@@ -15,7 +15,7 @@ class Router:
             return f
         return decorator
     
-    def not_found_handler(self, message: Message):
+    async def not_found_handler(self, message: Message):
         return Response(f'<Router>: path {message.path} not found')
 
     def handle_message(self, message: Message) -> Response:
