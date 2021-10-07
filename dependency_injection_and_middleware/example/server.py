@@ -1,18 +1,5 @@
-from dataclasses import dataclass
-# TODO: implement middleware
 from middleware import router, authorization, error_handler, logger
-
-@dataclass
-class Message:
-    subject: str
-    path: str
-    content: str
-
-
-@dataclass
-class Response:
-    content: str
-
+from util import Message, Response
 
 class Server:
     def __init__(self, middlewares: 'List[Middleware]'):
@@ -33,7 +20,7 @@ if __name__ == '__main__':
     ]
 
     # TODO: fix order of middleware
-    server = Server([router, authorization, error_handler])
+    server = Server([logger, error_handler, authorization, router])
 
     for message in messages:
         print(message)
