@@ -1,22 +1,12 @@
 import logging
 import json
-from random import random
-from asyncio import sleep
 
 from service_provider import service_provider
+from util import small_delay, medium_delay, big_delay
 
 log = logging.getLogger(__name__)
 
-# artificial delays for simulation
-
-def small_delay():
-    return sleep(random())
-
-def medium_delay():
-    return sleep(1 + .5 * random())
-
-def big_delay():
-    return sleep(2 + random())
+## Hello
 
 @service_provider.register
 class HelloService:
@@ -29,12 +19,7 @@ class HelloService:
             return 'Goodbye.'
         return 'Say hi or something!'
 
-class DataAdapterException(Exception):
-    def __init__(self):
-        super().__init__(self.__class__.__name__)
-
-class AlreadyExists(DataAdapterException): pass
-class NotFound(DataAdapterException): pass
+## DataStore
 
 @service_provider.singleton
 class DataStore(dict):
@@ -42,6 +27,15 @@ class DataStore(dict):
     def __init__(self):
         log.info(f'Creating [singleton] DataStore')
         super().__init__()
+
+## DataAdapter
+
+class DataAdapterException(Exception):
+    def __init__(self):
+        super().__init__(self.__class__.__name__)
+
+class AlreadyExists(DataAdapterException): pass
+class NotFound(DataAdapterException): pass
 
 @service_provider.session
 class DataAdapter:
@@ -82,6 +76,8 @@ class DataAdapter:
         await big_delay()
         return { k:v for k,v in self.store.items() if key.lower() in k.lower() }
 
+## SearchService
+
 @service_provider.register
 class SearchService:
     """Business Search logic"""
@@ -99,6 +95,7 @@ class SearchService:
         response = await self.adapter.query(key)
         return json.dumps(response)
 
+## FooService
 
 @service_provider.register
 class FooService:

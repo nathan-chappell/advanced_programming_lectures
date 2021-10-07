@@ -1,5 +1,7 @@
-from dataclasses import dataclass, field
+from asyncio import sleep
+from random import random
 
+from dataclasses import dataclass, field
 
 @dataclass
 class Message:
@@ -16,3 +18,16 @@ class Response:
 
     def __str__(self):
         return self.content
+
+
+# artificial delays for simulation
+
+def small_delay():
+    return sleep(random())
+
+def medium_delay():
+    return sleep(1 + .5 * random())
+
+def big_delay():
+    return sleep(2 + random())
+
