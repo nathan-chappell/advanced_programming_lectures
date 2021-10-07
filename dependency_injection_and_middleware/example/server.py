@@ -15,8 +15,7 @@ if __name__ == '__main__':
         Message('/search','foo'),
         Message('/new','foo,this is an example'),
         Message('/search','foo'),
-        Message('/foo','[code=wrong_code]'),
-        Message('/foo','[code=secret_code]'),
+        Message('/new','[code=secret_code]foo,this is an example'),
         Message('/search','foo'),
         Message('/qwer','zxcv'),
     ]

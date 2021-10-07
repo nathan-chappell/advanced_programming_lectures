@@ -3,6 +3,7 @@ from functools import reduce
 
 from util import Message, Response
 import routes
+from authorization import authorization as global_authorizer
 
 logging.basicConfig()
 logging.getLogger().setLevel(logging.INFO)
@@ -44,7 +45,6 @@ def router(_next):
 
 def authorization(_next):
     def handler(message):
-        # disable authorization
+        global_authorizer.authorize_message(message)
         return _next(message)
-        # raise NotImplementedError("authorization not implemented")
     return handler

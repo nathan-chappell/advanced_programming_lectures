@@ -20,7 +20,8 @@ class Router:
 
     def handle_message(self, message: Message) -> Response:
         handler = self.routes.get(message.path, self.not_found_handler)
-        args = service_provider.get_args(handler)
+        with service_provider.in_session() as session_provider:
+            args = session_provider.get_args(handler)
         args['message'] = message
         return handler(**args)
 
