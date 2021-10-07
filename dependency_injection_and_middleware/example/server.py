@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 # TODO: implement middleware
-from middleware import router, authorization, error_handler
+from middleware import router, authorization, error_handler, logger
 
 @dataclass
 class Message:
@@ -32,6 +32,7 @@ if __name__ == '__main__':
         Message('asdf','/qwer','zxcv'),
     ]
 
+    # TODO: fix order of middleware
     server = Server([router, authorization, error_handler])
 
     for message in messages:
