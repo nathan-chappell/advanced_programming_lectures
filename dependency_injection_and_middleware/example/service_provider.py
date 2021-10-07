@@ -1,7 +1,7 @@
 from inspect import signature
 
-class ServiceProvider
-    def __init__(self)
+class ServiceProvider:
+    def __init__(self):
         self.services = {}
 
     def construct(self, service: 'str or Type'):
@@ -20,7 +20,7 @@ class ServiceProvider
         sig = signature(fn)
         args = {}
         sig = signature(fn)
-        for name,parameter in sig.items():
+        for name,parameter in sig.parameters.items():
             annotation = parameter.annotation
             if self.has_service(annotation):
                 args[name] = self.construct(annotation)
