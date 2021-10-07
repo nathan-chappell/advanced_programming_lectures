@@ -17,10 +17,16 @@ class AlreadyExists(DataAdapterException): pass
 class NotFound(DataAdapterException): pass
 
 @service_provider.singleton
-class DataAdapter:
+class DataStore(dict):
     def __init__(self):
-        logging.info(f'Creating DataAdapter')
-        self.store = {}
+        logging.info(f'Creating [singleton] DataStore')
+        super().__init__()
+
+@service_provider.session
+class DataAdapter:
+    def __init__(self, store: 'DataStore'):
+        logging.info(f'Creating [session] DataAdapter')
+        self.store = store
 
     def check_exists(self, key):
         if key not in self.store:
@@ -52,6 +58,7 @@ class DataAdapter:
 @service_provider.register
 class SearchService:
     def __init__(self, adapter: 'DataAdapter'):
+        logging.info(f'Creating [scope] SearchService')
         self.adapter = adapter
     
     def get(self, key):
@@ -62,3 +69,10 @@ class SearchService:
 
     def search(self, key):
         return json.dumps(self.adapter.query(key))
+
+
+@service_provider.register
+class FooService:
+    def __init__(self, adapter: 'DataAdapter'):
+        logging.info(f'Creating [scope] FooService')
+        self.adapter = adapter

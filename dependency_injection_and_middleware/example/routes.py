@@ -21,6 +21,10 @@ def get(message: Message, search_service: 'SearchService') -> Response:
 
 
 @router.route('/search')
-def search(message: Message, search_service: 'SearchService') -> Response:
+def search(
+        message: Message,
+        search_service: 'SearchService',
+        foo_service: 'FooService',
+    ) -> Response:
     key = message.content
     return search_service.search(key)

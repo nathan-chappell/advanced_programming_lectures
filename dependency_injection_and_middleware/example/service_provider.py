@@ -22,7 +22,7 @@ class ServiceProvider:
         name = service if type(service) == str else service.__name__
         if name in self.singleton_cache:
             return self.get_cached(self.singleton_cache, name)
-        if name in self.session_services and getattr(self, 'session', False):
+        if name in self.session_services and getattr(self, 'session', None) is not None:
             return self.get_cached(self.session, name)
         return self._construct(name)
     
