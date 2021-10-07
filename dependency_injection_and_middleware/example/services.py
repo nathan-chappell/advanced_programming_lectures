@@ -1,4 +1,5 @@
 import logging
+import json
 
 from service_provider import service_provider
 
@@ -45,8 +46,19 @@ class DataAdapter:
         self.check_exists(key)
         del self.store[key]
 
+    def query(self, key):
+        return { k:v for k,v in self.store.items() if key.lower() in k.lower() }
+
 @service_provider.register
 class SearchService:
     def __init__(self, adapter: 'DataAdapter'):
         self.adapter = adapter
+    
+    def get(self, key):
+        return self.adapter.read(key)
 
+    def create(self, key, value):
+        self.adapter.create(key, value)
+
+    def search(self, key):
+        return json.dumps(self.adapter.query(key))

@@ -7,6 +7,19 @@ def index(message: Message, hello_service: 'HelloService') -> Response:
     return Response(response)
 
 
+@router.route('/new')
+def new(message: Message, search_service: 'SearchService') -> Response:
+    k,v = message.content.split(',')
+    return search_service.create(k,v)
+
+
+@router.route('/get')
+def get(message: Message, search_service: 'SearchService') -> Response:
+    key = message.content
+    return search_service.get(key)
+
+
 @router.route('/search')
-def index(message: Message, search_service: 'SearchService') -> Response:
-    return Response('hello to you')
+def search(message: Message, search_service: 'SearchService') -> Response:
+    key = message.content
+    return search_service.search(key)

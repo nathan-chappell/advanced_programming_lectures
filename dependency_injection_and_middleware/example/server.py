@@ -13,8 +13,9 @@ if __name__ == '__main__':
         Message('/index','hello there'),
         Message('/index','goodbye sir'),
         Message('/search','foo'),
-        Message('/foo','[code=wrong_code]'),
+        Message('/new','foo,this is an example'),
         Message('/search','foo'),
+        Message('/foo','[code=wrong_code]'),
         Message('/foo','[code=secret_code]'),
         Message('/search','foo'),
         Message('/qwer','zxcv'),
@@ -24,6 +25,6 @@ if __name__ == '__main__':
     server = Server([logger, error_handler, authorization, router])
 
     for message in messages:
-        print(message)
+        # print(message)
         response = server.handle_message(message)
-        print(response)
+        # print(response)
