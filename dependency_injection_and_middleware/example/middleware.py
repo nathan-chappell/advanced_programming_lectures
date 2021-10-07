@@ -5,6 +5,7 @@ from util import Message, Response
 import routes
 
 logging.basicConfig()
+logging.getLogger().setLevel(logging.INFO)
 # MessageHandler: Message -> Response
 
 def middleware_reducer(acc: 'MessageHandler', _next: 'Middleware') -> 'MessageHandler':

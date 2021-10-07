@@ -7,6 +7,6 @@ def index(message: Message, hello_service: 'HelloService') -> Response:
     return Response(response)
 
 
-@router.route('/query')
-def index(message: Message) -> Response:
+@router.route('/search')
+def index(message: Message, search_service: 'SearchService') -> Response:
     return Response('hello to you')
