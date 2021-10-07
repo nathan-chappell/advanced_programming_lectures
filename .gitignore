@@ -5,3 +5,6 @@
 # build
 *.o
 *.exe
+
+# py
+__pycache__

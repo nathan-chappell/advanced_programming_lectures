@@ -2,6 +2,7 @@ import logging
 from functools import reduce
 
 from util import Message, Response
+import routes
 
 logging.basicConfig()
 # MessageHandler: Message -> Response
@@ -33,12 +34,16 @@ def error_handler(_next):
             return Response(f'<ErrorHandler>: {e}')
     return handler
 
+# MUST BE LAST!  Unconditionally short-circuits pipeline
 def router(_next):
     def handler(message):
-        raise NotImplementedError("router not implemented")
+        response = routes.router.handle_message(message)
+        return response
     return handler
 
 def authorization(_next):
     def handler(message):
-        raise NotImplementedError("authorization not implemented")
+        # disable authorization
+        return _next(message)
+        # raise NotImplementedError("authorization not implemented")
     return handler
