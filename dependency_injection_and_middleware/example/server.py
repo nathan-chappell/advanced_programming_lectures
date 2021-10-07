@@ -10,14 +10,14 @@ class Server:
 
 if __name__ == '__main__':
     messages = [
-        Message('hello','/index','hello there'),
-        Message('goodbye','/index','goodbye sir'),
-        Message('query','/search','foo'),
-        Message('delete','/foo','[code=wrong_code]'),
-        Message('query','/search','foo'),
-        Message('delete','/foo','[code=secret_code]'),
-        Message('query','/search','foo'),
-        Message('asdf','/qwer','zxcv'),
+        Message('/index','hello there'),
+        Message('/index','goodbye sir'),
+        Message('/search','foo'),
+        Message('/foo','[code=wrong_code]'),
+        Message('/search','foo'),
+        Message('/foo','[code=secret_code]'),
+        Message('/search','foo'),
+        Message('/qwer','zxcv'),
     ]
 
     # TODO: fix order of middleware
