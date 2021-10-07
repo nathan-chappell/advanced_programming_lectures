@@ -44,7 +44,7 @@
 3. Replace Global Ref with Getter - have class get access to global through
    getter so it can be overridden in subclass
 
-### Statics / Misc
+### Statics / Misc (hard to construct object/ access methods)
 1. Expose Static Method - if some method does not have any (too many)
    references to `this`, then make it static
 2. Introduce Instance Delegator - if some static method is proving troubling,
@@ -53,5 +53,3 @@
    to be tested, move all logic into its own object (then test the method on
    this object)
 
-
-## Examples
