@@ -1,4 +1,4 @@
-from middleware import router, authorization, error_handler, logger
+from middleware import build_middleware, router, authorization, error_handler, logger
 from util import Message, Response
 
 class Server:

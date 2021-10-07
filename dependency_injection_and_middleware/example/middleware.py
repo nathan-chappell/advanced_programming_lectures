@@ -6,6 +6,17 @@ from util import Message, Response
 logging.basicConfig()
 # MessageHandler: Message -> Response
 
+def middleware_reducer(acc: 'MessageHandler', _next: 'Middleware') -> 'MessageHandler':
+    return _next(acc)
+
+def null_handler(message: 'Message') -> 'Response':
+    return Response()
+
+def build_middleware(middlewares: 'List[Middleware]') -> 'MessageHandler':
+    return reduce(middleware_reducer, reversed(middlewares), null_handler)
+    
+## Middlewares...
+
 def logger(_next: 'MessageHandler') -> 'MessageHandler':
     def handler(message: 'Message') -> 'Response':
         logging.info(f'<Logger, incoming>: {message}')
@@ -14,15 +25,20 @@ def logger(_next: 'MessageHandler') -> 'MessageHandler':
         return response
     return handler
 
-def middleware_reducer(acc: 'MessageHandler', _next: 'Middleware') -> 'MessageHandler':
-    return _next(acc)
+def error_handler(_next):
+    def handler(message):
+        try:
+            return _next(message)
+        except Exception as e:
+            return Response(f'<ErrorHandler>: {e}')
+    return handler
 
-def null_handler(message: 'Message') -> 'Response':
-    return Response()
+def router(_next):
+    def handler(message):
+        raise NotImplementedError("router not implemented")
+    return handler
 
-def build_middleware(middlewares: 'List[Middleware]') -> 'MessageHandler':
-    # TODO: implement
-    # want...
-    #   message -> error_handler(authorization(router(null_handler)))(message)
-    ...
-    
+def authorization(_next):
+    def handler(message):
+        raise NotImplementedError("authorization not implemented")
+    return handler
