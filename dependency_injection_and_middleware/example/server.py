@@ -10,7 +10,8 @@ class Server:
 
 if __name__ == '__main__':
     messages = [
-        Message('hello','/index',''),
+        Message('hello','/index','hello there'),
+        Message('goodbye','/index','goodbye sir'),
         Message('query','/search','foo'),
         Message('delete','/foo','[code=wrong_code]'),
         Message('query','/search','foo'),

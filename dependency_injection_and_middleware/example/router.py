@@ -2,6 +2,7 @@ from functools import wraps
 
 from util import Message, Response
 from service_provider import service_provider
+import services
 
 class Router:
     def __init__(self):
