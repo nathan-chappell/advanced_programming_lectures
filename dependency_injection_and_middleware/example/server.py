@@ -2,6 +2,7 @@ from middleware import build_middleware, router, authorization, error_handler, l
 from util import Message, Response
 
 class Server:
+    """basic server.  Used with net_server."""
     def __init__(self, middlewares: 'List[Middleware]'):
         self.pipeline = build_middleware(middlewares)
 

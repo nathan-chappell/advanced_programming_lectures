@@ -7,6 +7,8 @@ from service_provider import service_provider
 
 log = logging.getLogger(__name__)
 
+# artificial delays for simulation
+
 def small_delay():
     return sleep(random())
 
@@ -18,6 +20,7 @@ def big_delay():
 
 @service_provider.register
 class HelloService:
+    """Service which says hello"""
     async def get_response(self, content):
         await medium_delay()
         if 'hello' in content.lower():
@@ -35,12 +38,14 @@ class NotFound(DataAdapterException): pass
 
 @service_provider.singleton
 class DataStore(dict):
+    """Backend data store"""
     def __init__(self):
         log.info(f'Creating [singleton] DataStore')
         super().__init__()
 
 @service_provider.session
 class DataAdapter:
+    """CRUD-Adapter to access backend store"""
     def __init__(self, store: 'DataStore'):
         log.info(f'Creating [session] DataAdapter')
         self.store = store
@@ -79,6 +84,7 @@ class DataAdapter:
 
 @service_provider.register
 class SearchService:
+    """Business Search logic"""
     def __init__(self, adapter: 'DataAdapter'):
         log.info(f'Creating [scope] SearchService')
         self.adapter = adapter
@@ -96,6 +102,7 @@ class SearchService:
 
 @service_provider.register
 class FooService:
+    """Some service that also requires a DataAdapter"""
     def __init__(self, adapter: 'DataAdapter'):
         log.info(f'Creating [scope] FooService')
         self.adapter = adapter

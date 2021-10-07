@@ -4,6 +4,9 @@ import logging
 from server import server
 from util import Message
 
+# For more information, see:
+# https://docs.python.org/3/library/asyncio-stream.html#tcp-echo-server-using-streams
+
 logging.getLogger('services').setLevel(logging.WARN)
 
 def parse_message(message):
