@@ -1,6 +1,7 @@
 from functools import wraps
 
 from util import Message, Response
+from service_provider import service_provider
 
 class Router:
     def __init__(self):
@@ -18,7 +19,9 @@ class Router:
 
     def handle_message(self, message: Message) -> Response:
         handler = self.routes.get(message.path, self.not_found_handler)
-        return handler(message)
+        args = service_provider.get_args(handler)
+        args['message'] = message
+        return handler(**args)
 
 # global router
 router = Router()
