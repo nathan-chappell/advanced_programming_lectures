@@ -2,6 +2,14 @@
 
 ## Warmup / Exercise
 
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.min.js"
+    integrity="sha512-93xLZnNMlYI6xaQPf/cSdXoBZ23DThX7VehiGJJXB76HTTalQKPC5CIHuFX8dlQ5yzt6baBQRJ4sDXhzpojRJA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+
+$$ \sum_i^{n=10} i^2 $$
+
 1. Typescript playground: Covariance / Contravariance of function types
   * https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgIIEZkG8BQOC+eoksiKqATNnoTsdPEsgEKa4FHgNktXu0AbCGGQwAXMgAUcdBIwBKZAF4AfGgoBuHEJEBzCZIBGslukWreWoA
   * Input type: "what we must be able to expect" => upper bound
