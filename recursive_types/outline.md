@@ -14,6 +14,10 @@
   * How to express this mathematically?  Verify algorithmically? (We focus on
       the first question).
 
+#### Main Takeaway:
+* Contravariance / Covariance in function types
+* Recursively defined types are interesting
+
 ## Preliminaries
 ### Types in Lambda Calculus
 * T = Top | T x T | T -> T
@@ -36,6 +40,11 @@
   Example: _T_ is compact.
 * Theorem: Banach Fixpoint Theorem, Proof: iterated function
 
+### Main Takeaway:
+* Trees are functions on string
+* Types can be represented as Trees
+* Trees form a compact metric space
+
 ## Recursive Types in _T_
 * Regular Trees
 * Trees with variables
@@ -50,6 +59,10 @@
 * From \mu types to tree-types (intuitive / formalization)
 
 **How should subtyping be defined?**
+
+### Main Takeaway:
+* Iterating substitution converges by only considering the structure
+* mu-type expressions are convenient, but subtle
 
 ## Lattice-Based Approach
 * Basic idea: Subtype is a relation on _T_ x _T_
@@ -89,6 +102,10 @@
 * Is S Monotone? (Obvious).  Take greatest fixpoint nS to be Subtype relation.
 * How do these trees relate to mu-Types?  They are "the same," proof is a
   boring structural induction (show if there's time)
+
+### Main Takeaway:
+* Iterative frameworks fall nicely into Lattice frameworks
+* Fixed-points have useful properties
 
 ## Other Topics
 ### Regular Languages and Contractive Grammars
@@ -143,6 +160,11 @@
   * Need to show that every subtree of A is represented by a state in DFA
   * say T(\sigma) = A(\pi \sigma), then T is represented by DFA(\pi)
 
+### Main Takeaway:
+* All these *Regular* objects are related (grammars, languages, trees)
+* All these *Regular* objects have some *contractive* restrictions
+
 ### Misc
+**I almost certainly won't cover these**
 * Algorithm / Machine to determine recursive subtype relationship: http://web.cs.ucla.edu/~palsberg/paper/mscs95-kps.pdf
 * ([F-Bounded] Polymorphism) Java Generics are Turing Complete: https://arxiv.org/pdf/1605.05274.pdf
