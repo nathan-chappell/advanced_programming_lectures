@@ -55,8 +55,8 @@
 * T = X | Top | T x T | T -> T | \mu X.T
 * Substitution in mu-types (free / bound variables)
 * Fold / Unfold: \mu X.T = T[X -> \mu X.T]
-* Observation: \mu contraction
-* From \mu types to tree-types (intuitive / formalization)
+* Observation: \mu contraction: \mu X \mu Y . T[X,Y] = \mu X . T[X,X]
+* From \mu types to tree-types (intuition / formalization)
 
 **How should subtyping be defined?**
 
@@ -72,7 +72,7 @@
   until its closed"
 
 ### Preliminaries
-* Definition: F: P(U) -> P(U) monotone | X \subseteq Y => F(X) \subseteq F(Y)
+* Definition: F: P(U) -> P(U) monotone : X \subseteq Y => F(X) \subseteq F(Y)
 * Definition: Let X \subseteq U
   * F-closed: F(X) \subseteq X
   * F-consistent: X \subseteq F(X)
