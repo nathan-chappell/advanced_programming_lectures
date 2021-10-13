@@ -1,8 +1,12 @@
 from report_generator import ReportGenerator
 
+class DummyReportSaver:
+    def save_report(self, *args, **kwargs):
+        pass
+
 class TestReportGenerator(ReportGenerator):
-    def __init__(self):
-        ...
+    def make_report_saver(self):
+        return DummyReportSaver()
 
     def report_data(self, report):
         self.report = report

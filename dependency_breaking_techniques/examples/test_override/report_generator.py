@@ -7,7 +7,11 @@ class ReportSaver:
     
 class ReportGenerator:
     def __init__(self):
-        self.report_saver = ReportSaver()
+        # self.report_saver = ReportSaver()
+        self.report_saver = self.make_report_saver()
+
+    def make_report_saver(self):
+        return ReportSaver()
 
     def make_report(self, name, mean, var):
         report = {'name': name, 'mean': mean, 'var': var}
