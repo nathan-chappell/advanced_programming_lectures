@@ -1,8 +1,7 @@
 #include <algorithm>
-#include <cassert>
+#include <exception>
 #include <iterator>
 #include <numeric>
-#include <exception>
 #include <string>
 #include <vector>
 
@@ -14,7 +13,7 @@ ReportSaver::ReportSaver() { throw exception(); }
 
 void ReportSaver::save_report(const Report &report) { throw exception(); }
 
-ReportGenerator::ReportGenerator() { report_saver = ReportSaver(); }
+ReportGenerator::ReportGenerator() { report_saver = make_report_saver(); }
 
 void ReportGenerator::analyze_data(string name, const vector<double> &data) {
     double mean = accumulate(data.begin(), data.end(), 0);
@@ -33,6 +32,8 @@ Report ReportGenerator::make_report(string name, double mean, double var) {
     return Report{name, mean, var};
 }
 
-void ReportGenerator::report_data(const Report &report) {
-    report_saver.save_report(report);
-}
+void ReportGenerator::report_data(const Report &report) { report_saver->save_report(report); }
+
+IReportSaver* ReportGenerator::make_report_saver() { return new ReportSaver(); }
+
+ReportGenerator::~ReportGenerator() { delete report_saver; }
