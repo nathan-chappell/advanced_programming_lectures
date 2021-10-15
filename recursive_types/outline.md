@@ -168,3 +168,6 @@
 **I almost certainly won't cover these**
 * Algorithm / Machine to determine recursive subtype relationship: http://web.cs.ucla.edu/~palsberg/paper/mscs95-kps.pdf
 * ([F-Bounded] Polymorphism) Java Generics are Turing Complete: https://arxiv.org/pdf/1605.05274.pdf
+
+**Don't forget to check this out:**
+https://docs.microsoft.com/en-us/archive/blogs/ericlippert/constraints-are-not-part-of-the-signature
